@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mayank Mahajan">
+    <link rel="shortcut icon" href="http://gs.columbia.edu/misc/favicon.ico">
+
+
+    <title>Columbia Class Finder</title>
+    
+    <!--JQUERY-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+
+    <!--CSS-->
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet"> 
+
+
+    <!--<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        ABOVE LINK IS JUST FOR THE TEAL COLORING ON THE DROPDOWNS
+    -->
+
+  
+    <!-- Custom styles for this template -->
+    <link href="css/starter-template.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap-select.css"> -->
+    <link rel="stylesheet" type="text/css" media="screen" href="http://silviomoreto.github.io/bootstrap-select/stylesheets/bootstrap-select.css">
+    <link href="css/docs.css" rel="stylesheet">
+     
+    <style>
+    @media (min-width: 1200px) {
+  .container {
+    width: 1400px;
+              }
+    }
+    </style>
+    <!--  dat custom boostrap, its up here because it needs to load before the data script-->
+    <script src="js/bootstrap-select-mm.js"></script>
+    <!--jQuery plugin for tablesorter-->
+
+    <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+    <link href="css/table.css" rel="stylesheet"> 
+
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <!--script for Facebook comments-->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) return;
+     js = d.createElement(s); js.id = id;
+     js.src = "http://connect.facebook.net/en_US/all.js#xfbml=1&appId=150156261672511";
+     fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));</script>
+
+    <!--script for Facebook like/share-->
+     <div id="fb-rootlike"></div>
+      <script>(function(d, s, id) {
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) return;
+       js = d.createElement(s); js.id = id;
+       js.src = "http://connect.facebook.net/en_US/all.js#xfbml=1";
+       fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+    <!--Top banner-->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Class Finder</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="http://courses.adicu.com">ADi Scheduler</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a data-toggle="modal" data-target="#contact">Feedback/Questions</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <!--Top Center Text-->
+    <div class="container"><!--begin center text container-->
+      <div class="starter-template">
+        <h1>Class Finder</h1>
+        <p class="lead">This site allows you to find a class given various constraints.</p>
+      </div>
+    </div><!-- end center text container -->
+
+
+
+    <div class = "container"><!--begin constraints container-->
+      <!--Term buttons-->
+      <div class="btn-group btn-group-lg">
+        <button id = "Spring2014" value = "20141" type="button" class="btn btn-default active" onclick = "setTerm(this.value)">Spring 2014</button>
+        <button id = "Fall2013" value = "20133" type="button" class="btn btn-default" onclick = "setTerm(this.value)">Fall 2013</button>
+      </div> 
+
+      <p>
+
+       <!--Department dropdown-->
+      <p class = "initialism">Department</p>
+      <select id = "dept" class="selectpicker" multiple title = "Select dept(s)">
+        <option value="All" >All</option>
+        <script language = "JavaScript" src="js/depts.js"></script>
+      </select>
+
+      <!--Start time dropdown-->
+      <div class = "bs-docs-example">
+      <p class = "initialism">Start time</p>
+      <select id = "starttime" class="selectpicker" multiple title = "Select start time(s)">
+        <option value="All" >All</option>
+        <option value="8" >8:00 AM to 8:55 AM</option>
+        <option value="9" >9:00 AM to 9:55 AM</option>
+        <option value="10">10:00 AM to 10:55 AM</option>
+        <option value="11">11:00 AM to 11:55 AM</option>
+        <option value="12">12:00 Noon to 12:55 PM</option>
+        <option value="13">1:00 PM to 1:55 PM</option>
+        <option value="14">2:00 PM to 2:55 PM</option>
+        <option value="15">3:00 PM to 3:55 PM</option>
+        <option value="16">4:00 PM to 4:55 PM</option>
+        <option value="17">5:00 PM to 5:55 PM</option>
+        <option value="18">6:00 PM to 6:55 PM</option>
+        <option value="19">7:00 PM to 7:55 PM</option>
+        <option value="20">8:00 PM to 8:55 PM</option>
+        </select>
+      </div>
+
+      <!--End time dropdown-->
+      <div class ="bs-docs-example">
+        <p class = "initialism">End time</p>
+        <select id = "endtime" class="selectpicker" multiple title = "Select end time(s)">
+          <option value="All">All</option>
+          <option value="8" >8:00 AM to 8:55 AM</option>
+          <option value="9" >9:00 AM to 9:55 AM</option>
+          <option value="10">10:00 AM to 10:55 AM</option>
+          <option value="11">11:00 AM to 11:55 AM</option>
+          <option value="12">12:00 Noon to 12:55 PM</option>
+          <option value="13">1:00 PM to 1:55 PM</option>
+          <option value="14">2:00 PM to 2:55 PM</option>
+          <option value="15">3:00 PM to 3:55 PM</option>
+          <option value="16">4:00 PM to 4:55 PM</option>
+          <option value="17">5:00 PM to 5:55 PM</option>
+          <option value="18">6:00 PM to 6:55 PM</option>
+          <option value="19">7:00 PM to 7:55 PM</option>
+          <option value="20">8:00 PM to 8:55 PM</option>
+        </select>
+      </div>
+
+      <!--Text input field-->
+      <div class="input-group">
+        <span class="input-group-addon">Course/Instructor</span>
+        <input id="coursename" type="text" class="form-control" placeholder="Example: Fundamentals of Computer Systems OR CSEEW3827 OR CSEE3827 OR Rubenstein">
+      </div>
+
+      <p>
+      <p>
+
+      <!-- Submit button-->
+      <button id="submit" class="btn btn-large btn-block btn-primary" style="margin: auto; height: 50px; width: 80%;" type="button"><b>SUBMIT</b></button>
+
+      <!--loading sign-->
+      <p id="loading"><b>Loading..............................</b></p>
+      <p>
+    </div><!--end constraints container-->
+  
+    <div class="container"><!--begin results container-->
+       <div id="count"></div>
+
+        <!--Non-table way to display column headers, currently not supported-->
+      <!--
+      <div class="row show-grid">
+        <div class="col-sm-2"><b>Call Number</b></div>
+        <div class="col-sm-2"><b>Course ID</b></div>
+        <div class="col-sm-2"><b>Course Name</b></div>
+        <div class="col-sm-1"><b>Credits</b></div>
+        <div class="col-sm-2"><b>Instructor</b></div>
+        <div class="col-sm-1"><b>Day</b></div>
+        <div class="col-sm-1"><b>Start Time</b></div>
+        <div class="col-sm-1"><b>End Time</b></div>
+        </div>
+        <div id="results"></div>
+      -->
+
+      <!--Table column heading-->
+      <table id="tableresults" class="tablesorter">
+        <thead>
+          <tr>
+            <th class="header headerSortDown">Call Number</th>
+            <th class="header"><b>Course ID</b></th>
+            <th class="header"><b>Course Name</b></th>
+            <th class="header"><b>Credits</b></th>
+            <th class="header"><b>Instructor</b></th>
+            <th class="header"><b>Day</b></th>
+            <th class="header"><b>Start Time</b></th>
+            <th class="header"><b>End Time</b></th>
+            <th class="header"><b>More Info</b></th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--query results will go here-->
+        </tbody>
+      </table>
+    </div> <!--end results container-->
+
+
+<!-- Modal window for feedback-->
+
+    <div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+           <div class="modal-header" style="margin-bottom: 10px;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Feedback</h4>
+           </div>
+         <div class="fb-comments" data-href="http://cucoursefinder.appspot.com" data-numposts="5" data-colorscheme="light"></div>
+         <div class="fb-like" data-href="http://cucoursefinder.appspot.com" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+         <div class="modal-footer"></div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!--End HTML Content-->
+    <!--================================================================-->
+
+    <!-- Bootstrap core JavaScript
+    Placed at the end of the document so the pages load faster -->
+
+    <script language = "JavaScript" src="js/coms.js"></script>  <!--JS for the result table-->
+    <script src="http://getbootstrap.com/dist/js/bootstrap.js"></script> <!--Native bootstrap JS-->
+    <script src="http://silviomoreto.github.io/bootstrap-select/javascripts/jquery.mousewheel.js"></script> <!--JS for the mousewheel-->
+    <script src="http://silviomoreto.github.io/bootstrap-select/javascripts/scrollYou.js"></script> <!--JS for scrolling-->
+    <script src="http://getbootstrap.com/docs-assets/js/holder.js"></script>
+    <script src="http://getbootstrap.com/docs-assets/js/application.js"></script>
+
+    <!--some JS for the dropdowns-->
+    <script type="text/javascript">
+      window.onload=function(){
+      $('.selectpicker').selectpicker();
+       $('.scrollMe .dropdown-menu').scrollyou();
+      };
+    </script> 
+
+    <!--hide the loading button when results have loaded-->
+    <script type="text/javascript">
+      $(document).ready(function() 
+        { 
+          $("#loading").hide();
+          $("#tableresults").tablesorter(); 
+        } 
+      );
+    </script>
+
+    <!--Google Analytics code to track pageviews-->
+    <!--
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-47025989-1', 'cucoursefinder.appspot.com');
+      ga('send', 'pageview');
+
+    </script>
+    -->
+  </body>
+</html>
