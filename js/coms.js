@@ -72,7 +72,7 @@ function buildTablesorter(course, section)
     divstrdata +="<td>" + (section.MeetsOn1 != null ? section.MeetsOn1: "N/A") + "</td>";
     divstrdata +="<td>" + (section.StartTime1 != "None" ? section.StartTime1: "N/A") + "</td>";
     divstrdata +="<td>" + (section.EndTime1 != "None" ? section.EndTime1: "N/A") + "</td>";
-    divstrdata +="<td>" + "<a href='http://www.columbia.edu/cu/bulletin/uwb/subj/" + course.CourseFull.substring(0,4) + '/' + course.CourseFull.substring(4) + '-' + section.Term + '-' + section.SectionFull.substring(section.SectionFull.length-3) + '/' + "'>Link</a></td>";
+    divstrdata +="<td>" + "<a href='http://www.columbia.edu/cu/bulletin/uwb/subj/" + course.CourseFull.substring(0,4) + '/' + course.CourseFull.substring(4) + '-' + section.Term + '-' + section.SectionFull.substring(section.SectionFull.length-3) + '/' + "' target='_blank'>Link</a></td>";
     divstrdata += "</tr>";
 }
 

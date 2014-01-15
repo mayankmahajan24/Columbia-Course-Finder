@@ -3,6 +3,12 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+
+    <meta property="og:title" content="Columbia Class Finder" />
+    <meta property="og:image" content="http://cucoursefinder.appspot.com/img/logo.png" />
+    <meta property="og:url" content="http://cucoursefinder.appspot.com" />
+    <meta property="og:description" content="Find a class given various constraints at Columbia University." />  
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -35,7 +41,7 @@
     <style>
     @media (min-width: 1200px) {
   .container {
-    width: 1400px;
+    width: 1300px;
               }
     }
     </style>
@@ -67,17 +73,6 @@
      js.src = "http://connect.facebook.net/en_US/all.js#xfbml=1&appId=150156261672511";
      fjs.parentNode.insertBefore(js, fjs);
      }(document, 'script', 'facebook-jssdk'));</script>
-
-    <!--script for Facebook like/share-->
-     <div id="fb-rootlike"></div>
-      <script>(function(d, s, id) {
-       var js, fjs = d.getElementsByTagName(s)[0];
-       if (d.getElementById(id)) return;
-       js = d.createElement(s); js.id = id;
-       js.src = "http://connect.facebook.net/en_US/all.js#xfbml=1";
-       fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));</script>
-
 
 
 
@@ -181,7 +176,7 @@
       <p>
 
       <!-- Submit button-->
-      <button id="submit" class="btn btn-large btn-block btn-primary" style="margin: auto; height: 50px; width: 80%;" type="button"><b>SUBMIT</b></button>
+      <button id="submit" class="btn btn-large btn-block btn-primary" style="margin: auto; height: 50px; width: 8%;" type="button"><b>SUBMIT</b></button>
 
       <!--loading sign-->
       <p id="loading"><b>Loading..............................</b></p>
@@ -237,12 +232,18 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title" id="myModalLabel">Feedback</h4>
            </div>
+         <div class="fb-like" data-send="true" data-layout="standard" data-width="446" data-height="20" data-show-faces="true" data-href="http://cucoursefinder.appspot.com" data-action="like" data-colorscheme="light" show-faces="false"></div>
          <div class="fb-comments" data-href="http://cucoursefinder.appspot.com" data-numposts="5" data-colorscheme="light"></div>
-         <div class="fb-like" data-href="http://cucoursefinder.appspot.com" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
          <div class="modal-footer"></div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <div id="adical" class="container" align="center">
+
+    <iframe src="http://courses.adicu.com" height="800px" width="1200px"></iframe>
+
+  </div>
 
     <!--End HTML Content-->
     <!--================================================================-->
