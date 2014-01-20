@@ -6,7 +6,7 @@
  * Licensed under the MIT license
  */
 var filtersList = {"term":["20141"], "dept":[], "starttime":[], "endtime":[], "coursename":[], "callnum":[]};
-
+var clickedAll = false;
 
 !function($) {
 
@@ -549,7 +549,11 @@ var filtersList = {"term":["20141"], "dept":[], "starttime":[], "endtime":[], "c
                              $option.prop('selected', true);
                         }
 
-
+                        if ($option.val() == 'All' && !clickedAll)
+                        {
+                            alert("Warning: Selecting 'All' may cause the search to take a while.");
+                            clickedAll = true;
+                        }
                         //end mayank code
                        }
                          

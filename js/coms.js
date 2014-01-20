@@ -22,7 +22,7 @@ function addSelected(c) //handles the click events for checkboxes
     {
         call = c.id;
         string = "#l_"+call;
-
+        console.log(string);
         $(string).prop('checked',false);//set the list one to false
     }
     else //you clicked the list item 
@@ -44,7 +44,7 @@ function addSelected(c) //handles the click events for checkboxes
 
 
     updateURL();
-    updateSelected();
+    updateSelected(call);
 }
 
 function updateURL()
@@ -63,12 +63,12 @@ function updateURL()
     $("#adical").html("<iframe src='" + url + "' height='800px' width='1200px'></iframe>");
 }
 
-function updateSelected()
+function updateSelected(call)
 {
     var selstring = "";
     $.each(selectedCourses, function()
     {
-        selstring = selstring + "<div class='checkbox'><label><input id = '" + section.CallNumber + "' type='checkbox' onclick = 'addSelected(this);' style='width:18px; height:18px;' checked>" + idToTitle[this] + "</label></div>"; 
+        selstring = selstring + "<div class='checkbox'><label><input id = '" + call + "' type='checkbox' onclick = 'addSelected(this);' style='width:18px; height:18px;' checked>" + idToTitle[this] + "</label></div>"; 
     });
     $("#selCourses").html(selstring);
 }
