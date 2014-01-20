@@ -491,7 +491,6 @@ var filtersList = {"term":["20141"], "dept":[], "starttime":[], "endtime":[], "c
             this.$menu.on('click', 'li a', function(e) 
             {
 
-               //console.log(id);
                 var clickedIndex = $(this).parent().index(),
                     prevValue = that.$element.val(),
                     prevIndex = that.$element.prop('selectedIndex');
@@ -541,7 +540,6 @@ var filtersList = {"term":["20141"], "dept":[], "starttime":[], "endtime":[], "c
                         }
 
 
-                        console.log(JSON.stringify(filtersList));
 
 
                         //Handling "All"

@@ -1,6 +1,11 @@
 var divstrdata = "";
 var count = 0;
 var loadedDepts = {};
+var selectedCourses = [];
+var url = "";
+var idToTitle = [];
+var unloadedDepts = [];
+
 
 
 function setTerm(value)
@@ -9,6 +14,64 @@ function setTerm(value)
 
 }
 
+
+function addSelected(c) //handles the click events for checkboxes
+{
+    var call = "";
+    if (c.id.indexOf("l_") == -1) // you clicked one of your selected courses and made it false
+    {
+        call = c.id;
+        string = "#l_"+call;
+
+        $(string).prop('checked',false);//set the list one to false
+    }
+    else //you clicked the list item 
+    {   
+       call = c.id.substring(2);
+
+    }
+    if (c.checked) //now it's true
+    {
+      if ($.inArray(call, selectedCourses) == -1)
+        {
+            selectedCourses.push(call)
+        }
+    }
+    else
+    {
+        selectedCourses.splice($.inArray(call, selectedCourses), 1);
+    }
+
+
+    updateURL();
+    updateSelected();
+}
+
+function updateURL()
+{
+    //http://courses.adicu.com/#/schedule?semester=20141&sections=28118,24562&28118.color=green&24562.color=gray
+    url = "http://courses.adicu.com/#/schedule?";
+    url = url + "semester=" + filtersList["term"];
+    url = url + "&sections=";
+
+    $.each(selectedCourses, function()
+    {
+        url = url + this + ",";
+    });
+    
+
+    $("#adical").html("<iframe src='" + url + "' height='800px' width='1200px'></iframe>");
+}
+
+function updateSelected()
+{
+    var selstring = "";
+    $.each(selectedCourses, function()
+    {
+        selstring = selstring + "<div class='checkbox'><label><input id = '" + section.CallNumber + "' type='checkbox' onclick = 'addSelected(this);' style='width:18px; height:18px;' checked>" + idToTitle[this] + "</label></div>"; 
+    });
+    $("#selCourses").html(selstring);
+}
 
 
 function isValid(filtersList, course, section)
@@ -34,36 +97,18 @@ function isValid(filtersList, course, section)
     
     if (input != "" && course.CourseFull.indexOf(input) == -1 && altname.indexOf(input) == -1 && course.CourseTitle.indexOf(input) == -1 && section.Instructor1Name.indexOf(input) == -1)
         return false;
-    
-
-
     return true;
 }
 
-function buildBootstrap(course, section)
-{
-    
-    divstrdata +="<div class='row show-grid'>";
-    divstrdata +="<div class='col-sm-2'>" + section.CallNumber + "</div>";
-    divstrdata +="<div class='col-sm-2'>" + course.CourseFull + "</div>";
-    divstrdata +="<div class='col-sm-2'>" + course.CourseTitle + "</div>";
-    divstrdata +="<div class='clearfix visible-xs'></div>";
-    divstrdata +="<div class='col-sm-1'>" + course.NumFixedUnits/10.0 + "</div>";
-    divstrdata +="<div class='col-sm-2'>" + (section.Instructor1Name != "" ? section.Instructor1Name: "N/A") + "</div>";
-    divstrdata +="<div class='col-sm-1'>" + (section.MeetsOn1 != null ? section.MeetsOn1: "N/A") + "</div>";
-    divstrdata +="<div class='col-sm-1'>" + (section.StartTime1 != "None" ? section.StartTime1: "N/A") + "</div>";
-    divstrdata +="<div class='col-sm-1'>" + (section.EndTime1 != "None" ? section.EndTime1: "N/A") + "</div>";
-    divstrdata += "</div>";
-}
 
 function buildTablesorter(course, section)
 {
    
-    if (course.Description == null)
-        console.log("- Empty Description "+course.CourseFull);
-
+   
+    idToTitle[section.CallNumber] = course.CourseTitle;
     var o = count % 2 == 0 ? "even" : "odd";
     divstrdata +="<tr class='" + o +"'>";
+    divstrdata +="<td><div class='checkbox'><label><input id = l_" + section.CallNumber + " type='checkbox' onclick = 'addSelected(this);' style='width:18px; height:18px;'></label></div></td>";
     divstrdata +="<td>" + section.CallNumber + "</td>";
     divstrdata +="<td>" + course.CourseFull.substring(0,4)+" " + course.CourseFull.substring(4) + "</td>";
     divstrdata +="<td><abbr title='" + (course.Description == null ? "N/A'>" : (course.Description.substring(0,121) + "...'>")) + course.CourseTitle + "</abbr></td>";
@@ -72,16 +117,18 @@ function buildTablesorter(course, section)
     divstrdata +="<td>" + (section.MeetsOn1 != null ? section.MeetsOn1: "N/A") + "</td>";
     divstrdata +="<td>" + (section.StartTime1 != "None" ? section.StartTime1: "N/A") + "</td>";
     divstrdata +="<td>" + (section.EndTime1 != "None" ? section.EndTime1: "N/A") + "</td>";
-    divstrdata +="<td>" + "<a href='http://www.columbia.edu/cu/bulletin/uwb/subj/" + course.CourseFull.substring(0,4) + '/' + course.CourseFull.substring(4) + '-' + section.Term + '-' + section.SectionFull.substring(section.SectionFull.length-3) + '/' + "' target='_blank'>Link</a></td>";
+    divstrdata +="<td>" + "<a href='http://www.columbia.edu/cu/bulletin/uwb/subj/" + course.CourseFull.substring(0,4) + '/' + (course.CourseFull.substring(4,5) != "X" ? course.CourseFull.substring(4) : "BC" + course.CourseFull.substring(5))+ '-' + section.Term + '-' + section.SectionFull.substring(section.SectionFull.length-3) + '/' + "' target='_blank'>Link</a></td>";
     divstrdata += "</tr>";
 }
+
+
+
 
 function processJSON(json)
 {
     var course = "";
     if (json.data == null)
     {
-        console.log("data null");
         $('#tableresults tbody').html(divstrdata);
         return;
     }
@@ -108,93 +155,83 @@ function processJSON(json)
                 
 }
 
-//onclick
+//onclick 
 $(function(){
 
-    $('.btn-group button').on('click',function()
-{
+    $('.btn-group button').on('click',function()//switching terms
+    {
     $(this).parent().children().removeClass('active');
-   // $(this).parent().children().setAttribute('background-color', "gray");
     $(this).addClass('active');
-    //$(this).setAttribute('background-color',"yellow");
-    //filtersList["term"] = $(this).value ;
-});
-
-
-
-
-
-
-
-    //alert("you in this!");
-    $('#submit').on('click', function(e){
-//alert("clicked!");
-//location.reload();
-
-
-var results = document.getElementById('results');
-divstrdata = "";
-count = 0;
-processedDepts = [];
-divstrdata = "";
-//document.write("<p><b>" + JSON.stringify(filtersList)+"</b></p>");
-
-if (filtersList["dept"].length!= 0)
-{
-    $('#loading').show();  
-    var list = $.inArray("All", filtersList["dept"]) == -1 ? filtersList["dept"]: deptList;
-
-    $.each (list, function(){
-        var deptcode = this; 
-
-
-        if (loadedDepts[deptcode] != null)
-        {  
-            //alert("processing" + deptcode);
-            console.log("local cache on "+deptcode);
-            processJSON(loadedDepts[deptcode]);
-            processedDepts.push(deptcode);
-        }
-        
-       else
-       {
-            $.ajax({
-           type: 'GET',
-           url: "http://data.adicu.com/courses/v2/courses?api_token=021ebbe6765f11e394bf12313d000d18&department="+deptcode+"&pretty=true&limit=10000",
-           dataType: 'jsonp', 
-           success: function(json)
-           {
-                console.log("request success "+"code "+json.status_code);
-                loadedDepts[deptcode] = json;
-        //        if (json.status_code == "200")
-                {    
-                   console.log("processing json");          
-                   processJSON(json);
-                }
-                processedDepts.push(deptcode);
-                if (processedDepts.length == filtersList["dept"].length)
-                {
-                    $("#loading").hide();
-                    $("#count").html("<p><b>Total Number of Results: " + count + "</b></p>");
-
-                }
-
-            },
-           error: function() { console.log('Uh Oh!'); },
-           jsonp: 'jsonp'
-          
-            });
-        }
-        
-        if (processedDepts.length == filtersList["dept"].length)
-        {
-                    $("#loading").hide();
-                     $("#count").html("<p><b>Total Number of Results: " + count + "</b></p>");
-
-        }
+   
     });
-}
+
+    //when the user clicks submit
+    $('#submit').on('click', function(e){
+
+    var results = document.getElementById('results');
+    divstrdata = "";
+    count = 0;
+    processedDepts = [];
+    divstrdata = "";
+    unloadedDepts = [];
+
+    if (filtersList["dept"].length!= 0)
+    {
+       
+        var list = $.inArray("All", filtersList["dept"]) == -1 ? filtersList["dept"]: deptList;
+
+        $.each (list, function(){
+            var deptcode = this; 
 
 
-});
+
+            if (loadedDepts[deptcode] != null)
+            {  
+                processJSON(loadedDepts[deptcode]);
+                processedDepts.push(deptcode);
+            }
+            
+           else
+           {
+                $('#loading').show();  
+                $.ajax({
+               type: 'GET',
+               url: "http://data.adicu.com/courses/v2/courses?api_token=021ebbe6765f11e394bf12313d000d18&department="+deptcode+"&pretty=true&limit=10000",
+               dataType: 'jsonp', 
+               success: function(json)
+               {
+                    loadedDepts[deptcode] = json;
+                    processJSON(json);
+                    processedDepts.push(deptcode);
+                    if (processedDepts.length == list.length)
+                    {
+                        $("#loading").hide();
+                        $("#count").html("<p><b>Total Number of Results: " + count + "</b></p>");
+
+
+                    }
+
+                },
+               error: function() { 
+                unloadedDepts.push(deptcode);
+                $("#loading").hide();
+                 $("#count").html("<p><b>Total Number of Results: " + count + "</b></p>");
+                 $("#error").html("<font color='red'>Could not load the following departments: " + unloadedDepts + "</font>");
+
+                 },
+               jsonp: 'jsonp'
+              
+                });
+            }
+            
+            if (processedDepts.length == list.length)
+            {
+                        $("#loading").hide();
+                         $("#count").html("<p><b>Total Number of Results: " + count + "</b></p>");
+
+            }
+        });
+    }
+    else {alert("You must select a department(s). You can pick 'All.'");}
+    });
 });

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
 
     <meta property="og:title" content="Columbia Class Finder" />
-    <meta property="og:image" content="http://cucoursefinder.appspot.com/img/logo.png" />
+    <meta property="og:image" content="img/columbiaOG.png" />
     <meta property="og:url" content="http://cucoursefinder.appspot.com" />
     <meta property="og:description" content="Find a class given various constraints at Columbia University." />  
 
@@ -13,31 +13,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Mayank Mahajan">
-    <link rel="shortcut icon" href="http://gs.columbia.edu/misc/favicon.ico">
-
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <!--both images were created by Zoroastrama100 at http://en.wikipedia.org/wiki/File:ColumbiaUndergraduateLogos.jpg-->
 
     <title>Columbia Class Finder</title>
     
     <!--JQUERY-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
-
     <!--CSS-->
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet"> 
-
-
-    <!--<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
-        ABOVE LINK IS JUST FOR THE TEAL COLORING ON THE DROPDOWNS
-    -->
+    <link href="http://getbootstrap.com/2.3.2/assets/css/bootstrap-responsive.css" rel="stylesheet">
 
   
     <!-- Custom styles for this template -->
     <link href="css/starter-template.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap-select.css"> -->
     <link rel="stylesheet" type="text/css" media="screen" href="http://silviomoreto.github.io/bootstrap-select/stylesheets/bootstrap-select.css">
     <link href="css/docs.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet"> 
      
+
+
     <style>
     @media (min-width: 1200px) {
   .container {
@@ -45,34 +42,14 @@
               }
     }
     </style>
-    <!--  dat custom boostrap, its up here because it needs to load before the data script-->
-    <script src="js/bootstrap-select-mm.js"></script>
-    <!--jQuery plugin for tablesorter-->
-
-    <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
-    <link href="css/table.css" rel="stylesheet"> 
 
 
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  </head><!--=======================================END HEAD===================================================-->
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
-  <body>
+  <body><!--=======================================BEGIN BODY===================================================-->
     <!--script for Facebook comments-->
     <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) return;
-     js = d.createElement(s); js.id = id;
-     js.src = "http://connect.facebook.net/en_US/all.js#xfbml=1&appId=150156261672511";
-     fjs.parentNode.insertBefore(js, fjs);
-     }(document, 'script', 'facebook-jssdk'));</script>
+    
 
 
 
@@ -91,7 +68,7 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="http://courses.adicu.com">ADi Scheduler</a></li>
-            <li><a href="#about">About</a></li>
+            <li><a data-toggle="modal" data-target="#about">About</a></li>
             <li><a data-toggle="modal" data-target="#contact">Feedback/Questions</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -107,105 +84,109 @@
     </div><!-- end center text container -->
 
 
+    <div class="row">
+      <div class="span9" style="padding-left:100px;">
+        <div class="container"> <!--begin constraints container-->
+          <!--Term buttons-->
+          <div class="btn-group btn-group-lg">
+            <button id = "Spring2014" value = "20141" type="button" class="btn btn-default active" onclick = "setTerm(this.value)">Spring 2014</button>
+            <button id = "Fall2013" value = "20133" type="button" class="btn btn-default" onclick = "setTerm(this.value)">Fall 2013</button>
+          </div> 
 
-    <div class = "container"><!--begin constraints container-->
-      <!--Term buttons-->
-      <div class="btn-group btn-group-lg">
-        <button id = "Spring2014" value = "20141" type="button" class="btn btn-default active" onclick = "setTerm(this.value)">Spring 2014</button>
-        <button id = "Fall2013" value = "20133" type="button" class="btn btn-default" onclick = "setTerm(this.value)">Fall 2013</button>
-      </div> 
+          <br/>
 
-      <p>
+           <!--Department dropdown-->
+          <p class = "initialism">Department</p>
+          <select id = "dept" class="selectpicker" multiple title = "Select dept(s)">
+            <option value="All" >All</option>
+            <script language = "JavaScript" src="js/depts.js"></script>
+          </select>
 
-       <!--Department dropdown-->
-      <p class = "initialism">Department</p>
-      <select id = "dept" class="selectpicker" multiple title = "Select dept(s)">
-        <option value="All" >All</option>
-        <script language = "JavaScript" src="js/depts.js"></script>
-      </select>
+          <!--Start time dropdown-->
+          <div class = "bs-docs-example">
+          <p class = "initialism">Start time</p>
+          <select id = "starttime" class="selectpicker" multiple title = "Select start time(s)">
+            <option value="All" >All</option>
+            <option value="8" >8:00 AM to 8:55 AM</option>
+            <option value="9" >9:00 AM to 9:55 AM</option>
+            <option value="10">10:00 AM to 10:55 AM</option>
+            <option value="11">11:00 AM to 11:55 AM</option>
+            <option value="12">12:00 Noon to 12:55 PM</option>
+            <option value="13">1:00 PM to 1:55 PM</option>
+            <option value="14">2:00 PM to 2:55 PM</option>
+            <option value="15">3:00 PM to 3:55 PM</option>
+            <option value="16">4:00 PM to 4:55 PM</option>
+            <option value="17">5:00 PM to 5:55 PM</option>
+            <option value="18">6:00 PM to 6:55 PM</option>
+            <option value="19">7:00 PM to 7:55 PM</option>
+            <option value="20">8:00 PM to 8:55 PM</option>
+            </select>
+          </div>
 
-      <!--Start time dropdown-->
-      <div class = "bs-docs-example">
-      <p class = "initialism">Start time</p>
-      <select id = "starttime" class="selectpicker" multiple title = "Select start time(s)">
-        <option value="All" >All</option>
-        <option value="8" >8:00 AM to 8:55 AM</option>
-        <option value="9" >9:00 AM to 9:55 AM</option>
-        <option value="10">10:00 AM to 10:55 AM</option>
-        <option value="11">11:00 AM to 11:55 AM</option>
-        <option value="12">12:00 Noon to 12:55 PM</option>
-        <option value="13">1:00 PM to 1:55 PM</option>
-        <option value="14">2:00 PM to 2:55 PM</option>
-        <option value="15">3:00 PM to 3:55 PM</option>
-        <option value="16">4:00 PM to 4:55 PM</option>
-        <option value="17">5:00 PM to 5:55 PM</option>
-        <option value="18">6:00 PM to 6:55 PM</option>
-        <option value="19">7:00 PM to 7:55 PM</option>
-        <option value="20">8:00 PM to 8:55 PM</option>
-        </select>
+          <!--End time dropdown-->
+          <div class ="bs-docs-example">
+            <p class = "initialism">End time</p>
+            <select id = "endtime" class="selectpicker" multiple title = "Select end time(s)">
+              <option value="All">All</option>
+              <option value="8" >8:00 AM to 8:55 AM</option>
+              <option value="9" >9:00 AM to 9:55 AM</option>
+              <option value="10">10:00 AM to 10:55 AM</option>
+              <option value="11">11:00 AM to 11:55 AM</option>
+              <option value="12">12:00 Noon to 12:55 PM</option>
+              <option value="13">1:00 PM to 1:55 PM</option>
+              <option value="14">2:00 PM to 2:55 PM</option>
+              <option value="15">3:00 PM to 3:55 PM</option>
+              <option value="16">4:00 PM to 4:55 PM</option>
+              <option value="17">5:00 PM to 5:55 PM</option>
+              <option value="18">6:00 PM to 6:55 PM</option>
+              <option value="19">7:00 PM to 7:55 PM</option>
+              <option value="20">8:00 PM to 8:55 PM</option>
+            </select>
+          </div>
+        
+
+          <!--Text input field-->
+          <div class="input-group">
+            <span class="input-group-addon">Course/Instructor</span>
+            <input id="coursename" style="width:65%" type="text" class="form-control" placeholder="Example: Fundamentals of Computer Systems OR CSEEW3827 OR CSEE3827 OR Rubenstein">
+          </div><!--end input field-->
+        </div><!--end constraints container-->
+      </div> <!--end span-->
+      
+
+
+      <div class="span3" style="padding-left:100px;">
+        <h3><u>My Courses</u></h3>
+        <div id ="selCourses"></div>
       </div>
-
-      <!--End time dropdown-->
-      <div class ="bs-docs-example">
-        <p class = "initialism">End time</p>
-        <select id = "endtime" class="selectpicker" multiple title = "Select end time(s)">
-          <option value="All">All</option>
-          <option value="8" >8:00 AM to 8:55 AM</option>
-          <option value="9" >9:00 AM to 9:55 AM</option>
-          <option value="10">10:00 AM to 10:55 AM</option>
-          <option value="11">11:00 AM to 11:55 AM</option>
-          <option value="12">12:00 Noon to 12:55 PM</option>
-          <option value="13">1:00 PM to 1:55 PM</option>
-          <option value="14">2:00 PM to 2:55 PM</option>
-          <option value="15">3:00 PM to 3:55 PM</option>
-          <option value="16">4:00 PM to 4:55 PM</option>
-          <option value="17">5:00 PM to 5:55 PM</option>
-          <option value="18">6:00 PM to 6:55 PM</option>
-          <option value="19">7:00 PM to 7:55 PM</option>
-          <option value="20">8:00 PM to 8:55 PM</option>
-        </select>
-      </div>
-
-      <!--Text input field-->
-      <div class="input-group">
-        <span class="input-group-addon">Course/Instructor</span>
-        <input id="coursename" type="text" class="form-control" placeholder="Example: Fundamentals of Computer Systems OR CSEEW3827 OR CSEE3827 OR Rubenstein">
-      </div>
-
-      <p>
-      <p>
+    </div><!--end row-->
+    </br>
 
       <!-- Submit button-->
-      <button id="submit" class="btn btn-large btn-block btn-primary" style="margin: auto; height: 50px; width: 8%;" type="button"><b>SUBMIT</b></button>
+    
+    <button id="submit" class="btn btn-large btn-block btn-primary" style="margin: auto; height: 12.9%; width: 8%;" type="button"><b>SUBMIT</b></button>
 
       <!--loading sign-->
-      <p id="loading"><b>Loading..............................</b></p>
-      <p>
-    </div><!--end constraints container-->
+    
+    <style>
+      IMG.displayed {
+      display: block;
+      margin-left: auto;
+      margin-right: auto }
+    </style>
+    <img id="loading" class="displayed" src="img/loading.gif"></img>
+    <br/>
   
     <div class="container"><!--begin results container-->
        <div id="count"></div>
+       <div id="error"></div>
 
-        <!--Non-table way to display column headers, currently not supported-->
-      <!--
-      <div class="row show-grid">
-        <div class="col-sm-2"><b>Call Number</b></div>
-        <div class="col-sm-2"><b>Course ID</b></div>
-        <div class="col-sm-2"><b>Course Name</b></div>
-        <div class="col-sm-1"><b>Credits</b></div>
-        <div class="col-sm-2"><b>Instructor</b></div>
-        <div class="col-sm-1"><b>Day</b></div>
-        <div class="col-sm-1"><b>Start Time</b></div>
-        <div class="col-sm-1"><b>End Time</b></div>
-        </div>
-        <div id="results"></div>
-      -->
-
-      <!--Table column heading-->
-      <table id="tableresults" class="tablesorter">
+       <!--Table column heading-->
+       <table id="tableresults" class="tablesorter">
         <thead>
           <tr>
-            <th class="header headerSortDown">Call Number</th>
+            <th class="header">Add to Schedule</th>
+            <th class="header">Call Number</th>
             <th class="header"><b>Course ID</b></th>
             <th class="header"><b>Course Name</b></th>
             <th class="header"><b>Credits</b></th>
@@ -214,15 +195,39 @@
             <th class="header"><b>Start Time</b></th>
             <th class="header"><b>End Time</b></th>
             <th class="header"><b>More Info</b></th>
-        </tr>
+          </tr>
         </thead>
         <tbody>
         <!--query results will go here-->
         </tbody>
-      </table>
+       </table>
     </div> <!--end results container-->
-
-
+    
+    <div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+           <div class="modal-header" style="margin-bottom: 10px;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">About</h4>
+           </div>
+          <p> This web application was created by Mayank Mahajan. 
+            <br/>
+            <br/>
+            To use this application, first select the constraints you would like to apply. You may
+            also enter text in the input box that corresponds to the name of the course or the instructor. Then click submit to view the results. If there is
+            a class you would like to add to your schedule, select the "Add to schedule" button on the left-most column of the screen. The course should appear
+            on the top right under the "My Courses" section. You may deselect a course either through the "My Courses" section or through the table of results itself. To view your complete schedule, scroll down to the frame that contains the courses.adicu.com webpage. 
+            <br/>
+            <br/>
+            If you have any questions or feedback, please click the Feedback/Questions tab and comment through Facebook in the window. If you wish to remain anonymous, please email your feedback to mm4399@columbia.edu. 
+            <br/>
+            <br/>
+            Thank you for using the Columbia Course Finder!
+          </p>
+         <div class="modal-footer"></div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 <!-- Modal window for feedback-->
 
     <div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -232,7 +237,9 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title" id="myModalLabel">Feedback</h4>
            </div>
+      <!--
          <div class="fb-like" data-send="true" data-layout="standard" data-width="446" data-height="20" data-show-faces="true" data-href="http://cucoursefinder.appspot.com" data-action="like" data-colorscheme="light" show-faces="false"></div>
+      -->
          <div class="fb-comments" data-href="http://cucoursefinder.appspot.com" data-numposts="5" data-colorscheme="light"></div>
          <div class="modal-footer"></div>
         </div><!-- /.modal-content -->
@@ -241,6 +248,8 @@
 
     <div id="adical" class="container" align="center">
 
+    <br/>
+    <br/>
     <iframe src="http://courses.adicu.com" height="800px" width="1200px"></iframe>
 
   </div>
@@ -250,13 +259,26 @@
 
     <!-- Bootstrap core JavaScript
     Placed at the end of the document so the pages load faster -->
-
-    <script language = "JavaScript" src="js/coms.js"></script>  <!--JS for the result table-->
     <script src="http://getbootstrap.com/dist/js/bootstrap.js"></script> <!--Native bootstrap JS-->
+
+    <script src="js/bootstrap-select-mm.js"></script><!--custom js for the dropdowns-->
+    <script type="text/javascript" src="js/jquery.tablesorter.js"></script><!--JS for the tabulated results-->
+
+    <script language = "JavaScript" src="js/coms.js"></script>  <!--JS to build the results-->
     <script src="http://silviomoreto.github.io/bootstrap-select/javascripts/jquery.mousewheel.js"></script> <!--JS for the mousewheel-->
     <script src="http://silviomoreto.github.io/bootstrap-select/javascripts/scrollYou.js"></script> <!--JS for scrolling-->
-    <script src="http://getbootstrap.com/docs-assets/js/holder.js"></script>
-    <script src="http://getbootstrap.com/docs-assets/js/application.js"></script>
+   <!-- <script src="http://getbootstrap.com/docs-assets/js/holder.js"></script>-->
+    <!--<script src="http://getbootstrap.com/docs-assets/js/application.js"></script>-->
+
+    <!--fb script-->
+    <script>(function(d, s, id) {
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) return;
+     js = d.createElement(s); js.id = id;
+     js.src = "http://connect.facebook.net/en_US/all.js#xfbml=1&appId=150156261672511";
+     fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));</script>
+
 
     <!--some JS for the dropdowns-->
     <script type="text/javascript">
@@ -288,6 +310,7 @@
       ga('send', 'pageview');
 
     </script>
-    -->
-  </body>
+  -->
+    
+  </body> <!--=======================================END BODY===================================================-->
 </html>
